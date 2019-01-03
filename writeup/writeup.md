@@ -17,11 +17,11 @@ The Follow Me project goals were to train a fully convolutional neural net (FCN)
 ### The Fully Convolutional Network 
 #### 1. Architecture: One of the primary goals of the project was to design and implemet a fully convolutional neural net. To do so effectively one must construct a model involving image encoding and decoding blocks for image segmentation. 
 
-The fundamental concept is to train the network to label every pixel in an input image. The process labeling all pixes is called image segmentation. To do effective image segmentation, the network must first encode the image by learning a seriews of filters. Thus the convolutional stages of the network are used to learn image features by increasing the filter space while simultaneously decreasing the spatial volume. This series of filter-space-increasing / spatial-volume-decreasing layers in often called the encoding block of the FCN as it extracts a filter space encoding of the input training images. Note that separable convolution layers are used as frequently since they perform the encoding while decreasing the number of trainable parameters required by reqular convolution layers. Batch normalization is used to provide downstream layers in FCN with inputs that are zero mean and unit variance. A 1x1 convolutional layer is the final encoding stage, providing a means of further expanding the filter dimension while leaving the spatial dimension unchanged. 
+The fundamental concept is to train the network to label every pixel in an input image. The process of labeling all pixes is called image segmentation. To do effective image segmentation, the network must first encode the image by learning a seriews of filters. Thus the convolutional stages of the network are used to learn image features by increasing the filter space dimensino while simultaneously decreasing the spatial volume dimension. This series of filter-space-increasing / spatial-volume-decreasing layers in often called the encoding block of the FCN as it extracts a filter space encoding of the input training images. Note that separable convolution layers are used as frequently as possible since they perform the filter encoding while decreasing the number of trainable parameters required by reqular convolution layers. Batch normalization is used to provide downstream layers in FCN with inputs that are zero mean and unit variance. A 1x1 convolutional layer is the final encoding stage, providing a means of further expanding the filter dimension while leaving the spatial dimension unchanged. 
 
 The decoding block of layers is used to expand the spatial dimension back to the original input spatial volume while gradually decreasing the filter dimension. Input layers in this block are upsampled and concatenation with the original input image.
 
-The following tables shows the network architecture summary. The layer tensor output shape is useful for determining spatial volume and filter dimension changes which gives insight into the FCN's information encoding and decoding flow. 
+The following table shows the network architecture summary (use the command model.summary() before the model.fit_generator call). The layer tensor output shape tuple values are useful for determining spatial volume and filter dimension changes which gives insight into the FCN's information encoding and decoding flow. 
 
 
 ![alt text][image8]
@@ -29,7 +29,8 @@ The following tables shows the network architecture summary. The layer tensor ou
 
 #### 2. Training Parameters: The next step is to specify the network's hyperparameters.
 
-Network hyperparameters for the Follow Me project include
+Network hyperparameters for the Follow Me project include the following:
+
 -batch_size: number of training samples/images that get propagated through the network in a single pass.
 -num_epochs: number of times the entire training dataset gets propagated through the network.
 -steps_per_epoch: number of batches of training images that go through the network in 1 epoch. We have provided you with a default value. One recommended value to try would be based on the total number of images in training dataset divided by the batch_size.
