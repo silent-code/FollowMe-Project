@@ -1,15 +1,18 @@
 [//]: # (Image References)
 
-[image1]: ./misc_images/robond-picknplace-gazebo-screencap.png
-[image2]: ./misc_images/kuka_arm_annotated.png
-[image3]: ./misc_images/rse_proj2_eqtns1.png
-[image4]: ./misc_images/rse_proj2_eqtns2.png
-[image5]: ./misc_images/kuka_8of10.png
+[image1]: ./image1.png
+[image2]: ./image2.png
+[image3]: ./image3.png
+[image4]: ./image4.png
+[image5]: ./image5.png
+[image6]: ./image6.png
+[image7]: ./image7.png
 
 ## Project: Kinematics Pick & Place
-The Kinematics Pick and Place project introduced python-based programming within the Robotic Operating System (ROS) environment and the use of the Kuka KR210 serial manipulator simulator to demonstrate basic forward and inverse kinematic concepts. The next image is a screen capture of the simulation during the actual testing stage of the project, showing the robotic manipulator successfully placing the object into the target bin.
+The Follow Me project goals were to train a fully convolutional neural net (FCN) to allow a simulated quad rotor to track a specified human target while ignoring false human targets. The following images show the performance achieved on test data. The first image below depicts an image of the tracked target (left), the test image ground truth mask (center), and the FCN's performance at labeling the test image (right). The second image shows the FCN's pixel labels of the target. As is shown, most of the pixels are labeled correctly and hence the quad rotor will likely track the target well while ignoring false tracks.
 
-![alt text][image1]
+![alt text][image6]
+![alt text][image7]
 
 ### Kinematic Analysis
 #### 1. The first objective was to run the forward_kinematics demo and evaluate the kr210.urdf file to perform kinematic analysis of Kuka KR210 robot and derive its DH parameters.
