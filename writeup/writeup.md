@@ -31,7 +31,7 @@ The following table shows the network architecture summary (use the command mode
 
 Network hyperparameters for the Follow Me project include the following:
 
--batch_size: number of training samples/images that get propagated through the network in a single pass.
+-batch_size: number of training samples/images that get propagated through the network in a single pass.<BR>
 -num_epochs: number of times the entire training dataset gets propagated through the network.
 -steps_per_epoch: number of batches of training images that go through the network in 1 epoch. We have provided you with a default value. One recommended value to try would be based on the total number of images in training dataset divided by the batch_size.
 -validation_steps: number of batches of validation images that go through the network in 1 epoch. This is similar to steps_per_epoch, except validation_steps is for the validation dataset. We have provided you with a default value for this as well.
@@ -41,7 +41,7 @@ Hyperparameters must be specified such that trainable parameters are found for t
 
 ![alt text][image5]
 
-The next images show the the calcuated final score and the 100-epoch training and validation loss curves performance, respectively.
+The final two following images show the the calcuated final score and the 100-epoch training / validation loss curves, respectively.
 
 ![alt text][image1]
 ![alt text][image3]
