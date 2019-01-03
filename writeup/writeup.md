@@ -17,7 +17,11 @@ The Follow Me project goals were to train a fully convolutional neural net (FCN)
 ### Network Architecture
 #### 1. One of the primary goals of the project was to design and implemet a fully convolutional neural net. 
 
-The fundamental concept is to train the network to label every pixel in an input image. The process labeling all pixes is called image segmentation. To do effective image segmentation, the network must first encode the image by learning a seriews of filters. Thus the convolutional stages of the network are used to learn image features by increasing the filter space. .The following table shows the network architecture. As can image shows the relevant DH parameters, joint angle directions and coordinate system axes.
+The fundamental concept is to train the network to label every pixel in an input image. The process labeling all pixes is called image segmentation. To do effective image segmentation, the network must first encode the image by learning a seriews of filters. Thus the convolutional stages of the network are used to learn image features by increasing the filter space while simultaneously decreasing the spatial volume. This series of filter-space-increasing / spatial-volume-decreasing layers in often called the encoding block of the FCN as it extracts a filter space encoding of the input training images. Note that separable convolution layers are used as frequently since they perform the encoding while decreasing the number of trainable parameters required by reqular convolution layers. Batch normalization is used to provide downstream layers in FCN with inputs that are zero mean and unit variance. A 1x1 convolutional layer is the final encoding stage, providing a means of further expanding the filter dimension while leaving the spatial dimension unchanged. 
+
+The decoding block of layers is used to expand the spatial dimension back to the original input spatial volume while gradually decreasing the filter dimension. Input layers in this block are upsampled and concatenation with the original input image.
+
+The following tables shows the network architecture summary. The layer tensor output shape is useful for determining spatial volume and filter dimension changes which gives insight into the FCN's information encoding and decoding flow. 
 
 
 ![alt text][image8]
