@@ -1,12 +1,12 @@
 [//]: # (Image References)
 
 [image1]: ./image1.png
-[image2]: ./image2.png
 [image3]: ./image3.png
 [image4]: ./image4.png
 [image5]: ./image5.png
 [image6]: ./image6.png
 [image7]: ./image7.png
+[image8]: ./Screen Shot 2019-01-03 at 1.47.22 PM.png
 
 ## Project: Follow Me
 The Follow Me project goals were to train a fully convolutional neural net (FCN) to allow a simulated quad rotor to track a specified human target while ignoring false human targets. The following images show the performance achieved on test data. The first image below depicts an image of the tracked target (left), the test image ground truth mask (center), and the FCN's performance at labeling the test image (right). The second image shows the FCN's segmentation performance on non-targets. Again, the left image is the test image for non-targets, the center image is the ground truth mask, and the right image shows the FCN's performance at labeling non-targets. As is shown, most of the pixels are labeled correctly in both test images (top and bottom right) and hence the quad rotor will likely track the target well while ignoring false tracks.
@@ -15,12 +15,12 @@ The Follow Me project goals were to train a fully convolutional neural net (FCN)
 ![alt text][image7]
 
 ### Network Architecture
-#### 1. The first objective was to run the forward_kinematics demo and evaluate the kr210.urdf file to perform kinematic analysis of Kuka KR210 robot and derive its DH parameters.
+#### 1. One of the primary goals of the project was to design and implemet a fully convolutional neural net. 
 
-The following annotated image shows the relevant DH parameters, joint angle directions and coordinate system axes.
+The fundamental concept is to train the network to label every pixel in an input image. The process labeling all pixes is called image segmentation. To do effective image segmentation, the network must first encode the image by learning a seriews of filters. Thus the convolutional stages of the network are used to learn image features by increasing the filter space. .The following table shows the network architecture. As can image shows the relevant DH parameters, joint angle directions and coordinate system axes.
 
 
-![alt text][image2]
+![alt text][image8]
 
 The DH table is shown next and is derived according the DH rules. Once the robot diagram is correctly annotated, the DH table follows in a straight forward manner. Note that one has to accound for the differences between the DH rules and the urdf file specification. This was a little difficult to grasp at first, but carefully following the lesson description was helpful.
 
