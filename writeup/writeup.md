@@ -36,56 +36,13 @@ Network hyperparameters for the Follow Me project include
 -validation_steps: number of batches of validation images that go through the network in 1 epoch. This is similar to steps_per_epoch, except validation_steps is for the validation dataset. We have provided you with a default value for this as well.
 -workers: maximum number of processes to spin up. This can affect your training speed and is dependent on your hardware. We have provided a recommended value to work with.
 
-Hyperparameters must be specified such that trainable parameters are found for the network that allow for a weighted intersection over union performance score greater than 0.40 is achieved. The next table shows the hyperparameters I used to achieve a final score of 0.42. 
+Hyperparameters must be specified such that trainable parameters are found for the network that achieve a weighted intersection over union performance score greater than 0.40. I begain hyperparameter optimization by starting with publicly available values used in common FCN applications. Once I found modifying hyperparameters to be ineffective at final score performance - I was only able to achieve a max final score of 0.39 by tweaking hyperparameters - I turned to modification of network architecture parameters. The breakthrough occured by decreasing the filter dimension reduction between the concatenate_7 and separable_conv2d_keras_25 layers from 70-20 to 70-40. I believe the 70-20 filter dimension change was to extreme and resulted in some of the learned filter encodings. The next table shows the hyperparameters I used to achieve a final score of 0.42. 
 
-![alt text][image1]
 ![alt text][image5]
 
 The next images show the the calcuated final score and the 100-epoch training and validation loss curves performance, respectively.
 
+![alt text][image1]
 ![alt text][image3]
-
 
  
-#### 3. Next we were required to decouple the Inverse Kinematics problem into Inverse Position Kinematics and Inverse Orientation Kinematics and by doing so obtain the equations to calculate all individual joint angles.
-
-First we needed to obtain the location of the wrist center position [WCx, WCy, WCz]. Since the Kuka has a spherical wrist, the wrist position and orientation with respect to the robot base are independent. The following diagram shows the wrist center position derivation.  
-
-![alt text][image4]
-
-Once we have the wrist center position it is fairly straight forward to derive the first three joint angles. The next diagram shows the pertinent robot geometry between the base and wrist center (WC). 
-
-![alt text][image3]
-
-To calculate the final three joint angles we use the fact that the Grip rotation matrix with respect to the base, Rot_ee, is equal to the matrix composition R0_3 * R3_6. Thus
-
-R3_6 = R0_3.inv("LU") * Rot_ee
-
-The above right hand side is a numerical 3 x 3 matrix since the first three joint angles are known (i.e., we can numerically compute R0_3) and we can compute Rot_ee given the robot Grip orientation. Since the left hand side contains the final three joint variables we can use these equations to solve for them numericallhy. One can use the IK_debug.py with the following code added to print out and solve for the joint variables 4-6. For example equating the [1, 1]-element: 
-
-T3_6 = T3_4 * T4_5 * T5_6<br>
-R3_6 = T3_6[0:3, 0:3]<br>
-R3_6_sym = simplify(R3_6.T * Rot_ee_symbol)<br>
-R3_6_sym = R3_6_sym.subs({'r': roll, 'p': pitch, 'y': yaw})<br>
-print(np.matrix(R3_6_sym[1,1]))<br>
-R0_3 = R0_3.evalf(subs={q1: theta1, q2: theta2, q3: theta3})<br>
-R3_6 = R0_3.inv("LU") * Rot_ee<br>
-print(np.matrix(R3_6[1,1]))<br>
-
-Yields the equation:
-
--0.332 = 0.879 * sin(theta4) * sin(theta5 - theta6) - 0.473 * sin(theta5 - theta6) * cos(theta4) - 0.054 * cos(theta5 - theta6)
-
-The final equations in python are:
-
-theta4 = atan2(R3_6[2, 2], -R3_6[0, 2])<br>
-theta5 = atan2(sqrt(R3_6[0, 2] * R3_6[0, 2] + R3_6[2, 2] * R3_6[2, 2]), R3_6[1, 2])<br>
-theta6 = atan2(-R3_6[1, 1], R3_6[1, 0])<br>
-
-### Project Implementation
-
-#### 1. To complete the project I filled in the `IK_server.py` file with the forward and inverse kinematic code we implemented in the IK_debug.py python code for calculating Inverse Kinematics based on previously performed Kinematic Analysis. The code has been shown to guide the robot to successfully complete at least 8/10 pick and place cycles. The final image is a screen cap showing the successful placement of the 8 objects in the bin and the two failed attempts on the shelf. The final standing object on the shelf is simply the 11th attempt at reset which wasn't used.   
-
-
-
-
