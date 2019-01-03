@@ -37,11 +37,13 @@ Network hyperparameters for the Follow Me project include the following:
 -validation_steps: number of batches of validation images that go through the network in 1 epoch. This is similar to steps_per_epoch, except validation_steps is for the validation dataset. <BR>
 -workers: maximum number of processes to spin up. This can affect your training speed and is dependent on your hardware.<BR>
 
-Hyperparameters must be specified such that trainable parameters are found for the network that achieve a weighted intersection over union performance score greater than 0.40. I begain hyperparameter optimization by starting with publicly available values used in common FCN applications. Once I found modifying hyperparameters to be ineffective at final score performance - I was only able to achieve a max final score of 0.39 by tweaking hyperparameters - I turned to modification of network architecture parameters. The breakthrough occured by decreasing the filter dimension reduction between the concatenate_7 and separable_conv2d_keras_25 layers from 70-20 to 70-40. I believe the 70-20 filter dimension change was to extreme and resulted in some of the learned filter encodings. The next table shows the hyperparameters I used to achieve a final score of 0.42. 
+Hyperparameters must be specified such that trainable parameters are found for the network that achieve a weighted intersection-over-union (IoU) performance score greater than 0.40. I began hyperparameter optimization by starting with publicly available values used in FCN image segmentation applications. Once I found modifying hyperparameters to be ineffective at final score performance improvements (I was only able to achieve a max final score of 0.39 by tweaking hyperparameters), I turned to modification of network architecture parameters. The breakthrough occured by decreasing the filter dimension reduction between the concatenate_7 and separable_conv2d_keras_25 layers from 70-20 to 70-40. I believe the 70-20 filter dimension change was too extreme and resulted in some of the learned filter encoding information to be lossed in the decoding block. 
+
+The next table shows the hyperparameters I used to achieve a final weighted IoU score of 0.42. 
 
 ![alt text][image5]
 
-The final two following images show the the calcuated final score and the 100-epoch training / validation loss curves, respectively.
+The final two following images show the the calcuated final weighted IoU score and the 100-epoch training / validation loss curves, respectively.
 
 ![alt text][image1]
 ![alt text][image3]
