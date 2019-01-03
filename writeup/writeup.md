@@ -6,7 +6,7 @@
 [image5]: ./image5.png
 [image6]: ./image6.png
 [image7]: ./image7.png
-[image8]: ./Screen Shot 2019-01-03 at 1.47.22 PM.png
+[image8]: ./image8.png
 
 ## Project: Follow Me
 The Follow Me project goals were to train a fully convolutional neural net (FCN) to allow a simulated quad rotor to track a specified human target while ignoring false human targets. The following images show the performance achieved on test data. The first image below depicts an image of the tracked target (left), the test image ground truth mask (center), and the FCN's performance at labeling the test image (right). The second image shows the FCN's segmentation performance on non-targets. Again, the left image is the test image for non-targets, the center image is the ground truth mask, and the right image shows the FCN's performance at labeling non-targets. As is shown, most of the pixels are labeled correctly in both test images (top and bottom right) and hence the quad rotor will likely track the target well while ignoring false tracks.
