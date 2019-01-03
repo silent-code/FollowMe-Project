@@ -38,9 +38,10 @@ Network hyperparameters for the Follow Me project include
 
 Hyperparameters must be specified such that trainable parameters are found for the network that allow for a weighted intersection over union performance score greater than 0.40 is achieved. The next table shows the hyperparameters I used to achieve a final score of 0.42. 
 
+![alt text][image1]
 ![alt text][image5]
 
-The next image shows the 100-epoch training and validation loss curves.
+The next images show the the calcuated final score and the 100-epoch training and validation loss curves performance, respectively.
 
 ![alt text][image3]
 
