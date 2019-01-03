@@ -8,13 +8,13 @@
 [image6]: ./image6.png
 [image7]: ./image7.png
 
-## Project: Kinematics Pick & Place
-The Follow Me project goals were to train a fully convolutional neural net (FCN) to allow a simulated quad rotor to track a specified human target while ignoring false human targets. The following images show the performance achieved on test data. The first image below depicts an image of the tracked target (left), the test image ground truth mask (center), and the FCN's performance at labeling the test image (right). The second image shows the FCN's pixel labels of the target. As is shown, most of the pixels are labeled correctly and hence the quad rotor will likely track the target well while ignoring false tracks.
+## Project: Follow Me
+The Follow Me project goals were to train a fully convolutional neural net (FCN) to allow a simulated quad rotor to track a specified human target while ignoring false human targets. The following images show the performance achieved on test data. The first image below depicts an image of the tracked target (left), the test image ground truth mask (center), and the FCN's performance at labeling the test image (right). The second image shows the FCN's segmentation performance on non-targets. Again, the left image is the test image for non-targets, the center image is the ground truth mask, and the right image shows the FCN's performance at labeling non-targets. As is shown, most of the pixels are labeled correctly in both test images (top and bottom right) and hence the quad rotor will likely track the target well while ignoring false tracks.
 
 ![alt text][image6]
 ![alt text][image7]
 
-### Kinematic Analysis
+### Network Architecture
 #### 1. The first objective was to run the forward_kinematics demo and evaluate the kr210.urdf file to perform kinematic analysis of Kuka KR210 robot and derive its DH parameters.
 
 The following annotated image shows the relevant DH parameters, joint angle directions and coordinate system axes.
