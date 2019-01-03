@@ -33,9 +33,9 @@ Network hyperparameters for the Follow Me project include the following:
 
 -batch_size: number of training samples/images that get propagated through the network in a single pass.<BR>
 -num_epochs: number of times the entire training dataset gets propagated through the network.<BR>
--steps_per_epoch: number of batches of training images that go through the network in 1 epoch. We have provided you with a default value. One recommended value to try would be based on the total number of images in training dataset divided by the batch_size.<BR>
--validation_steps: number of batches of validation images that go through the network in 1 epoch. This is similar to steps_per_epoch, except validation_steps is for the validation dataset. We have provided you with a default value for this as well.<BR>
--workers: maximum number of processes to spin up. This can affect your training speed and is dependent on your hardware. We have provided a recommended value to work with.<BR>
+-steps_per_epoch: number of batches of training images that go through the network in 1 epoch. <BR>
+-validation_steps: number of batches of validation images that go through the network in 1 epoch. This is similar to steps_per_epoch, except validation_steps is for the validation dataset. <BR>
+-workers: maximum number of processes to spin up. This can affect your training speed and is dependent on your hardware.<BR>
 
 Hyperparameters must be specified such that trainable parameters are found for the network that achieve a weighted intersection over union performance score greater than 0.40. I begain hyperparameter optimization by starting with publicly available values used in common FCN applications. Once I found modifying hyperparameters to be ineffective at final score performance - I was only able to achieve a max final score of 0.39 by tweaking hyperparameters - I turned to modification of network architecture parameters. The breakthrough occured by decreasing the filter dimension reduction between the concatenate_7 and separable_conv2d_keras_25 layers from 70-20 to 70-40. I believe the 70-20 filter dimension change was to extreme and resulted in some of the learned filter encodings. The next table shows the hyperparameters I used to achieve a final score of 0.42. 
 
