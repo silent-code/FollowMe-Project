@@ -14,8 +14,8 @@ The Follow Me project goals were to train a fully convolutional neural net (FCN)
 ![alt text][image6]
 ![alt text][image7]
 
-### Network Architecture
-#### 1. One of the primary goals of the project was to design and implemet a fully convolutional neural net. 
+### The Fully Convolutional Network 
+#### 1. Architecture: One of the primary goals of the project was to design and implemet a fully convolutional neural net. To do so effectively one must construct a model involving image encoding and decoding blocks for image segmentation. 
 
 The fundamental concept is to train the network to label every pixel in an input image. The process labeling all pixes is called image segmentation. To do effective image segmentation, the network must first encode the image by learning a seriews of filters. Thus the convolutional stages of the network are used to learn image features by increasing the filter space while simultaneously decreasing the spatial volume. This series of filter-space-increasing / spatial-volume-decreasing layers in often called the encoding block of the FCN as it extracts a filter space encoding of the input training images. Note that separable convolution layers are used as frequently since they perform the encoding while decreasing the number of trainable parameters required by reqular convolution layers. Batch normalization is used to provide downstream layers in FCN with inputs that are zero mean and unit variance. A 1x1 convolutional layer is the final encoding stage, providing a means of further expanding the filter dimension while leaving the spatial dimension unchanged. 
 
@@ -26,54 +26,25 @@ The following tables shows the network architecture summary. The layer tensor ou
 
 ![alt text][image8]
 
-The DH table is shown next and is derived according the DH rules. Once the robot diagram is correctly annotated, the DH table follows in a straight forward manner. Note that one has to accound for the differences between the DH rules and the urdf file specification. This was a little difficult to grasp at first, but carefully following the lesson description was helpful.
 
-Links | alpha(i-1) | a(i-1) | d(i-1) | theta(i)
---- | --- | --- | --- | ---
-0->1 | 0 | 0 | .75 | q1
-1->2 | -90 | .35 | 0 | -pi/2 + q2
-2->3 | 0 | 1.25 | 0 | q3
-3->4 |  -90 | -.054 | 1.5 | q4
-4->5 | 90 | 0 | 0 | q5
-5->6 | -90 | 0 | 0 | q6
-6->EE | 0 | 0 | .303 | 0
+#### 2. Training Parameters: The next step is to specify the network's hyperparameters.
 
-#### 2. Using the DH parameters above, we can create individual transformation matrices about each joint. The individual joint transforms with the DH parameter substitutions are as follows:
+Network hyperparameters for the Follow Me project include
+-batch_size: number of training samples/images that get propagated through the network in a single pass.
+-num_epochs: number of times the entire training dataset gets propagated through the network.
+-steps_per_epoch: number of batches of training images that go through the network in 1 epoch. We have provided you with a default value. One recommended value to try would be based on the total number of images in training dataset divided by the batch_size.
+-validation_steps: number of batches of validation images that go through the network in 1 epoch. This is similar to steps_per_epoch, except validation_steps is for the validation dataset. We have provided you with a default value for this as well.
+-workers: maximum number of processes to spin up. This can affect your training speed and is dependent on your hardware. We have provided a recommended value to work with.
 
-T0_1 = [[cos(q1) -sin(q1) 0 0] <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[sin(q1) cos(q1) 0 0] <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[0 0 1 0.75] <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[0 0 0 1]]
- 
-T1_2 = [[cos(q2 - 0.5*pi) -sin(q2 - 0.5*pi) 0 0.35] <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       [0 0 1 0] <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       [-sin(q2 - 0.5*pi) -cos(q2 - 0.5*pi) 0 0] <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       [0 0 0 1]]
+Hyperparameters must be specified such that trainable parameters are found for the network that allow for a weighted intersection over union performance score greater than 0.40 is achieved. The next table shows the hyperparameters I used to achieve a final score of 0.42. 
 
-T2_3 = [[cos(q3) -sin(q3) 0 1.25] <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       [sin(q3) cos(q3) 0 0] <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       [0 0 1 0] <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       [0 0 0 1]]
- 
-T3_4 = [[cos(q4) -sin(q4) 0 -0.054] <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       [0 0 1 1.5] <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       [-sin(q4) -cos(q4) 0 0] <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       [0 0 0 1]]
- 
-T4_5 = [[cos(q5) -sin(q5) 0 0] <br>
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      [0 0 -1 0] <br>
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      [sin(q5) cos(q5) 0 0] <br>
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      [0 0 0 1]]
- 
-T5_6 = [[cos(q6) -sin(q6) 0 0] <br>
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      [-sin(q6) -cos(q6) 0 0] <br>
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      [0 0 -1 0] <br>
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      [0 0 0 1]]
- 
-T6_Grip = [[1 0 0 0] <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          [0 1 0 0] <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          [0 0 1 0.303] <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          [0 0 0 1]]
+![alt text][image5]
+
+The next image shows the 100-epoch training and validation loss curves.
+
+![alt text][image3]
+
+
  
 #### 3. Next we were required to decouple the Inverse Kinematics problem into Inverse Position Kinematics and Inverse Orientation Kinematics and by doing so obtain the equations to calculate all individual joint angles.
 
@@ -116,4 +87,4 @@ theta6 = atan2(-R3_6[1, 1], R3_6[1, 0])<br>
 
 
 
-![alt text][image5]
+
