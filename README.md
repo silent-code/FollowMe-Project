@@ -1,18 +1,18 @@
 [//]: # (Image References)
 
-[image1]: ./image1.png
-[image3]: ./image3.png
-[image4]: ./image4.png
-[image5]: ./image5.png
-[image6]: ./image6.png
-[image7]: ./image7.png
-[image8]: ./image8.png
+[image1]: ./FollowMe-Project/image1.png
+[image3]: ./FollowMe-Project/image3.png
+[image4]: ./FollowMe-Project/image4.png
+[image5]: ./FollowMe-Project/image5.png
+[image6]: ./FollowMe-Project/image6.png
+[image7]: ./FollowMe-Project/image7.png
+[image8]: ./FollowMe-Project/image8.png
 
 ## Project: Follow Me
 The Follow Me project goals were to train a fully convolutional neural net (FCN) to allow a simulated quad rotor to track a specified human target while ignoring false human targets. The following images show the performance achieved on test data. The first image below depicts an image of the tracked target (left), the test image ground truth mask (center), and the FCN's performance at labeling the test image (right). The second image shows the FCN's segmentation performance on non-targets. Again, the left image is the test image for non-targets, the center image is the ground truth mask, and the right image shows the FCN's performance at labeling non-targets. As is shown, most of the pixels are labeled correctly in both test images (top and bottom right) and hence the quad rotor will likely track the target well while ignoring false tracks.
 
-![alt text][image6]
-![alt text][image7]
+![alt text][./FollowMe-Project/image6]
+![alt text][./FollowMe-Project/image7]
 
 ### The Fully Convolutional Network 
 #### 1. Architecture: One of the primary goals of the project was to design and implemet a fully convolutional neural net. To do so effectively one must construct a model involving image encoding and decoding blocks for image segmentation. 
@@ -24,7 +24,7 @@ The decoding block of layers is used to expand the spatial dimension back to the
 The following table shows the network architecture summary (use the command model.summary() before the model.fit_generator call). The layer tensor output shape tuple values are useful for determining spatial volume and filter dimension changes which gives insight into the FCN's information encoding and decoding flow. 
 
 
-![alt text][image8]
+![alt text][./FollowMe-Project/image8]
 
 
 #### 2. Training Parameters: The next step is to specify the network's hyperparameters.
@@ -41,11 +41,11 @@ Hyperparameters must be specified such that trainable parameters are found for t
 
 The next table shows the hyperparameters I used to achieve a final weighted IoU score of 0.42. 
 
-![alt text][image5]
+![alt text]./FollowMe-Project/image5]
 
 The final two following images show the the calcuated final weighted IoU score and the 100-epoch training / validation loss curves, respectively.
 
-![alt text][image1]
-![alt text][image3]
+![alt text][./FollowMe-Project/image1]
+![alt text][./FollowMe-Project/image3]
 
  
